@@ -1,14 +1,16 @@
-import email
-import os
-import re
-import nlt
+#import core pckgs
 import xgboost as xgb
 import streamlit as st
+#import EDA pckgs
 import pandas as pd
 import numpy
 from collections import Counter
 from sklearn.pipeline import Pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
+import email
+import os
+import re
+import nltk
 
 ## Loadin the created model
 model = xgb.XGBRegressor()
@@ -92,3 +94,22 @@ email_to_countvector = Pipeline([
     ("emailToWords", EmailToWordsCount()), 
     ("wordCountVectorizer", WordCountVectorizer())
 ])
+
+processed_input = email_to_countvector.fit_transform(input_email)
+
+prediction = model.predict(processed_input)
+return prediction
+
+# Designing the app
+def main():
+    #Email classification
+    st.title("Email Classifier Machine Learning App")
+    st.subheader("With Streamlit")
+    Activities = ["Classify Emails", "About"]
+    choice = st.sidebar.selectbox("Select Activity", Activities)
+    if choice == "Classify Emails":
+        st.subheader("Classifying Emails with ML")
+    elif choice == "About":
+        st.subheader=("About App")
+if__name __== '__main__':
+    main()
