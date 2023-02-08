@@ -8,3 +8,8 @@ import pandas as pd
 import numpy
 
 ## Loadin the created model
+model = xgb.XGBRegressor()
+model.load_model('xgb_model.json')
+
+##Caching the model for faster loading
+@st.cache
