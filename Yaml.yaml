@@ -1,0 +1,21 @@
+---
+credentials:
+  usernames:
+    hquad:
+      email: quadrihabeeb9@gmail.com
+      name: Habeeb Quadri
+      password: $2b$12$H.lVQFN0NsRn8Lsqhh8awuYrVgUwOInJZHsChe74AxQ/G/wF0Tvuu # To be replaced with hashed password
+    yemiwunmi:
+      email: adeyemiadewunmi771@gmail.com 
+      name: Adeyemi Adewunmi
+      password: $2b$12$oaSiKg2w4qzZT1DSUz.rk.QRBMq0sieM8VDLvE.0Q3UbJzpLzhRSK # To be replaced with hashed password
+cookie:
+  expiry_days: 30
+  key: random_signature_key # Must be string
+  name: random_cookie_name
+preauthorized:
+  emails:
+  - habeeb9quadri@gmail.com
+
+
+  
