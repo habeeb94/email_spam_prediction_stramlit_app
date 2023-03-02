@@ -2,3 +2,11 @@ xgboost
 sklearn
 pandas
 numpy
+streamlit
+streamlit_authenticator
+os
+re
+nltk
+email
+yaml
+collections
