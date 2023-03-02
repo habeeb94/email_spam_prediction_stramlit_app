@@ -1,9 +1,12 @@
+import streamlit as st
+import streamlit_authenticator as stauth
 #import core pckgs
 import xgboost as xgb
-import streamlit as st
+#import streamlit as st
+
 #import EDA pckgs
 import pandas as pd
-import numpy
+import numpy as np
 from collections import Counter
 from sklearn.pipeline import Pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -11,13 +14,58 @@ import email
 import os
 import re
 import nltk
+import yaml
+
+
+with open('Yaml.yaml') as file: #file = open('Yaml.yaml')
+    config = yaml.load(file, Loader=yaml.SafeLoader)
+
+#authenticator objects
+authenticator = stauth.Authenticate(
+    config['credentials'],
+    config['cookie']['name'],
+    config['cookie']['key'],
+    config['cookie']['expiry_days'],
+    config['preauthorized']
+)
 
 ## Loadin the created model
 model = xgb.XGBRegressor()
-model.load_model('xgb_model.json')
+model.load_model('xgb2_model.json')
 
 ##Caching the model for faster loading
 @st.cache
+
+
+#Converting html to text
+def html_to_text(email) -> str:
+    try:
+        soup = BeautifulSoup(email.get_payload(), "html.parser")
+        plain = soup.text.replace("=\n", "")
+        plain = re.sub(r"\s+", " ", plain)
+        return plain.strip()
+    except:
+        return "nothing"
+
+def get_key(val, my_dict):
+    for key,value in my_dict.items():
+        if val == value:
+            return key.any()
+email_labels = {"ham":0, "spam": 1}
+
+#htlml to word converter
+def email_to_text(email):
+    text_content = ""
+    for part in email.walk():
+        part_content_type = part.get_content_type()
+        if part_content_type not in ['text/plain', 'text/html']:
+            continue
+        if part_content_type == 'text/plain':
+            text_content += part.get_payload()
+        else:
+            text_content += html_to_text(part)
+    return text_content
+
 
 ## data Cleaning............Creating Counters for striped email strings
 class EmailToWordsCount(BaseEstimator, TransformerMixin):
@@ -95,21 +143,56 @@ email_to_countvector = Pipeline([
     ("wordCountVectorizer", WordCountVectorizer())
 ])
 
-processed_input = email_to_countvector.fit_transform(input_email)
 
-prediction = model.predict(processed_input)
-return prediction
+#App loging page
+name, authentication_status, username = authenticator.login('Login', 'main')
 
-# Designing the app
-def main():
-    #Email classification
-    st.title("Email Classifier Machine Learning App")
-    st.subheader("With Streamlit")
-    Activities = ["Classify Emails", "About"]
-    choice = st.sidebar.selectbox("Select Activity", Activities)
-    if choice == "Classify Emails":
-        st.subheader("Classifying Emails with ML")
-    elif choice == "About":
-        st.subheader=("About App")
-if__name __== '__main__':
-    main()
+if authentication_status:
+        authenticator.logout('Logout', 'main')
+        st.write(f'Welcome *{name}*')
+elif authentication_status == False:
+    st.error('Username/password is incorrect')
+elif authentication_status == None:
+    st.warning('Please enter your username and password')
+
+if authentication_status == True:
+    # Designing the app for Classification
+    def main():
+        #Email classification
+        st.title("Email Classifier ML App")
+        st.subheader("With Streamlit")
+        Activities = ["Classify Emails", "About"]
+        choice = st.sidebar.selectbox("Select Activity", Activities)
+        if choice == "Classify Emails":
+            st.subheader("Classifying Emails with ML")
+            filename = st.text_input('Enter a file path:')
+            #st.text_input('Enter a folder path that contain email files:')
+            try:
+                filename_data = [name for name in sorted(os.listdir(filename))]
+
+                def parse_email(fname):
+                    directory = filename
+                    with open(os.path.join(directory,fname), "rb") as fp:
+                        return email.parser.BytesParser().parse(fp)
+                new_data = [parse_email(name) for name in filename_data]
+                #try:
+                    #with open(filename, "rb") as input:
+                        #st.text(input.read()) 
+                        #return email.parser.BytesParser().parse(input)
+                #except FileNotFoundError:
+                    #st.error('File not found.')
+
+                #mail_text = st.text_area("Paste email here")
+                if st.button("Classify"):
+                    data = email_to_countvector.fit_transform(new_data)
+
+                    prediction = model.predict(data).round()
+                    #final_result = get_key(prediction, email_labels)
+                    st.write(prediction)
+            except:
+                st.error("Please enter the correct file path")        
+        elif choice == "About":
+            st.subheader=("About App")
+    if __name__== '__main__':
+        main()
+
