@@ -5,5 +5,4 @@ numpy
 streamlit
 streamlit_authenticator
 nltk
-yaml
 collections
