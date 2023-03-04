@@ -23,7 +23,7 @@ import matplotlib
 # Set up tkinter
 root = tk.Tk()
 root.withdraw()
-root.mainloop()
+export DISPLAY =:0.0
 
 with open('Yaml.yaml') as file: #file = open('Yaml.yaml')
     config = yaml.load(file, Loader=yaml.SafeLoader)
