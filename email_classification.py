@@ -17,13 +17,13 @@ import re
 import nltk
 import yaml
 import matplotlib
-
+matplotlib.use(
 
 
 # Set up tkinter
 root = tk.Tk()
 root.withdraw()
-export DISPLAY =:0.0
+DISPLAY =:0.0
 
 with open('Yaml.yaml') as file: #file = open('Yaml.yaml')
     config = yaml.load(file, Loader=yaml.SafeLoader)
