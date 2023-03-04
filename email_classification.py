@@ -2,7 +2,8 @@ import streamlit as st
 import streamlit_authenticator as stauth
 #import core pckgs
 import xgboost as xgb
-#import streamlit as st
+import tkinter as tk
+from tkinter import filedialog
 
 #import EDA pckgs
 import pandas as pd
@@ -16,6 +17,11 @@ import re
 import nltk
 import yaml
 
+
+
+# Set up tkinter
+root = tk.Tk()
+root.withdraw()
 
 with open('Yaml.yaml') as file: #file = open('Yaml.yaml')
     config = yaml.load(file, Loader=yaml.SafeLoader)
@@ -165,7 +171,15 @@ if authentication_status == True:
         choice = st.sidebar.selectbox("Select Activity", Activities)
         if choice == "Classify Emails":
             st.subheader("Classifying Emails with ML")
-            filename = st.text_input('Enter a file path:')
+            # Make folder picker dialog appear on top of other windows
+            root.wm_attributes('-topmost', 1)
+            # Folder picker button
+            st.title('Folder Picker')
+            st.write('Please select a folder:')
+            clicked = st.button('Folder Picker')
+            if clicked:
+                filename = st.text_input('Selected folder:', filedialog.askdirectory(master=root))
+            #filename = st.text_input('Enter a file path:')
             #st.text_input('Enter a folder path that contain email files:')
             try:
                 filename_data = [name for name in sorted(os.listdir(filename))]
