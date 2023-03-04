@@ -2,8 +2,8 @@ import streamlit as st
 import streamlit_authenticator as stauth
 #import core pckgs
 import xgboost as xgb
-import tkinter as tk
-from tkinter import filedialog
+import _tkinter as tk
+from _tkinter import _filedialog
 
 #import EDA pckgs
 import pandas as pd
