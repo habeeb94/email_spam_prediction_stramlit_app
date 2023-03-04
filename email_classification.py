@@ -21,8 +21,8 @@ import matplotlib
 
 # Set up tkinter
 root = tk.Tk()
-root.withdraw()
-DISPLAY =:0.0
+#root.withdraw()
+
 
 with open('Yaml.yaml') as file: #file = open('Yaml.yaml')
     config = yaml.load(file, Loader=yaml.SafeLoader)
