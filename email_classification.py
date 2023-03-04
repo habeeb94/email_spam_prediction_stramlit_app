@@ -22,6 +22,7 @@ import matplotlib
 # Set up tkinter
 root = tk.Tk()
 #root.withdraw()
+root.mainloop()
 
 
 with open('Yaml.yaml') as file: #file = open('Yaml.yaml')
