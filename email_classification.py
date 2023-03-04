@@ -17,7 +17,6 @@ import re
 import nltk
 import yaml
 import matplotlib
-matplotlib.use(
 
 
 # Set up tkinter
