@@ -22,6 +22,7 @@ import yaml
 # Set up tkinter
 root = tk.Tk()
 root.withdraw()
+root.mainloop()
 
 with open('Yaml.yaml') as file: #file = open('Yaml.yaml')
     config = yaml.load(file, Loader=yaml.SafeLoader)
