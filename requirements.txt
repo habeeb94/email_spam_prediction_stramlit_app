@@ -6,3 +6,4 @@ streamlit
 streamlit_authenticator
 nltk
 scikit-learn
+Tkinter
