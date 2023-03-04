@@ -1,5 +1,4 @@
 xgboost
-sklearn
 pandas
 numpy
 streamlit
