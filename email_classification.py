@@ -192,10 +192,10 @@ if authentication_status == True:
             selected_filename = st.selectbox('Select a file', filenames)
             return os.path.join(folder_path, selected_filename)
             try:
-                filename_data = [name for name in sorted(os.listdir(filename))]
+                filename_data = [name for name in sorted(os.listdir(selected_filename))]
 
                 def parse_email(fname):
-                    directory = filename
+                    directory = selected_filename
                     with open(os.path.join(directory,fname), "rb") as fp:
                         return email.parser.BytesParser().parse(fp)
                 new_data = [parse_email(name) for name in filename_data]
