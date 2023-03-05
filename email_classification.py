@@ -189,13 +189,15 @@ if authentication_status == True:
             #st.text_input('Enter a folder path that contain email files:')
             def file_selector(folder_path='.'):
                 filenames = os.listdir(folder_path)
-            selected_filename = st.selectbox('Select a file', filenames)
-            return os.path.join(folder_path, selected_filename)
+                selected_filename = st.selectbox('Select a file', filenames)
+                return os.path.join(folder_path, selected_filename)
+            filename = file_selector()
+            st.write('You selected `%s`' % filename)
             try:
-                filename_data = [name for name in sorted(os.listdir(selected_filename))]
+                filename_data = [name for name in sorted(os.listdir(filename))]
 
                 def parse_email(fname):
-                    directory = selected_filename
+                    directory = filename
                     with open(os.path.join(directory,fname), "rb") as fp:
                         return email.parser.BytesParser().parse(fp)
                 new_data = [parse_email(name) for name in filename_data]
