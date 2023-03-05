@@ -19,12 +19,12 @@ import yaml
 import matplotlib
 
 
-os.system("xvfb :1 screen 0 720x720x16 &")
-os.environ["DISPLAY"] = ":1.0"
+#os.system("xvfb :1 screen 0 720x720x16 &")
+#os.environ["DISPLAY"] = ":1.0"
 
 # Set up tkinter
-root = tk.Tk()
-root.withdraw()
+#root = tk.Tk()
+#root.withdraw()
 #root.mainloop()
 
 
