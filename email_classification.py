@@ -178,15 +178,19 @@ if authentication_status == True:
         if choice == "Classify Emails":
             st.subheader("Classifying Emails with ML")
             # Make folder picker dialog appear on top of other windows
-            root.wm_attributes('-topmost', 1)
+            #root.wm_attributes('-topmost', 1)
             # Folder picker button
-            st.title('Folder Picker')
-            st.write('Please select a folder:')
-            clicked = st.button('Folder Picker')
-            if clicked:
-                filename = st.text_input('Selected folder:', filedialog.askdirectory(master=root))
+            #st.title('Folder Picker')
+            #st.write('Please select a folder:')
+            #clicked = st.button('Folder Picker')
+            #if clicked:
+                #filename = st.text_input('Selected folder:', filedialog.askdirectory(master=root))
             #filename = st.text_input('Enter a file path:')
             #st.text_input('Enter a folder path that contain email files:')
+            def file_selector(folder_path='.'):
+                filenames = os.listdir(folder_path)
+            selected_filename = st.selectbox('Select a file', filenames)
+            return os.path.join(folder_path, selected_filename)
             try:
                 filename_data = [name for name in sorted(os.listdir(filename))]
 
